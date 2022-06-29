@@ -44,7 +44,7 @@
                         <label for="country">Country:</label>
   
                         
-                        <form action="{% url 'index' %}" method="post">
+                        <form action="{% url 'viewbetslist' %}" method="post">
                           {% csrf_token %}
                           <select name="country" id="country">
                             {% if country == "singapore" %}
@@ -81,9 +81,9 @@
               </div>
               <div style="padding:10px">
                 <div id="mainracebody">
-                  <div id="racelistheader" style="font-size:16px"><b>Races in {% country %} from {{startdate}} to {{enddate}}</b></div>
-                  {% for race in racelist %}
-                    <a href="/viewrace/{{ race.id }}"><button class="btn btn-info" style="margin: 5px">${race.datetime_str}</button></a>
+                  <div id="racelistheader" style="font-size:16px"><b>List of bets you have made for races in {% country %} from {{startdate}} to {{enddate}}</b></div>
+                  {% for betResult in betResultsList %}
+                    <a href="/viewbetresults/{{ betResult.id }}"><button class="btn btn-info" style="margin: 5px">${betResult.race_datetime}</button></a>
                   {% endfor %}
               </div>              
               </div>

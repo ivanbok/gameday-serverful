@@ -1,0 +1,62 @@
+{% extends "gameday/layout.html" %}
+
+{% block sidebar %}
+
+<br>
+<ul class="menu nav b-menu b-menu--vertical left-menu horse-racing-function">
+  <li class="leaf b-menu__list-item">
+    <a href="{% url 'calendar' %}" class="b-menu__menu-link">Meeting</a>
+  </li>
+  <li class="leaf b-menu__list-item">
+    <a href="{% url 'index' %}" class="b-menu__menu-link">Race Cards</a>
+  </li>
+  <li class="first leaf active b-menu__list-item">
+    <a href="{% url 'index' %}" class="b-menu__menu-link is-active">Race Results</a>
+  </li>
+  <li class="last leaf b-menu__list-item">
+    <a href="{% url 'viewbetslist' %}" class="b-menu__menu-link">Your Betting Results</a>
+  </li>
+  <li class="last leaf b-menu__list-item">
+    <a href="{% url 'calendar' %}" class="b-menu__menu-link">Race Calendar</a>
+  </li>
+</ul>
+  
+{% endblock %}
+
+{% block mainbody %}
+<div class="col-sm-12 bs-region bs-region--main">
+  <div class="block-region-main">
+    <section data-block-plugin-id="horse_racing_meeting" class="block block-sgpools-widget block-horse-racing-meeting clearfix">
+      <div data-habitat="C1">
+        <section class="b-content__body__content offcanvas-view">
+          <div id="banner-main"><img src="{% static 'gameday/{{country}}.jpeg' %}" width="658px" style="overflow: auto;"></div>
+          <br>
+          <h2 id="navy-blue-title-header" class="header-title header-title--navy-blue" style="overflow: auto;">
+            <span class="horse-racing-event-section-title">Racing Results</span>
+          </h2>
+          <div class="pane-content">
+            <div class="entity entity-bean bean-event-list clearfix">
+              <div class="content"><div class="event-list">
+              <div style="padding:10px">
+                <div id="mainracebody">
+                  <div id="racelistheader" style="font-size:16px"><b>Results for {% country %} race on {{race_datetime}}</b></div>
+                  <br>
+                  <table><tr style="background-color:#0747ad; color:white"><td style="width:300px;border:none;padding-left:20px"><b>Results</b></td><td style="width:400px;border:none"><b></b></td></tr></table>
+                  <table><tr style="background-color:#e3e3e3"><td style="width:300px;border:none;padding-left:20px"><b>Bet Type</b></td><td style="width:400px;border:none;padding-left:10px"><b>{{bet_type}}</b></td></tr></table>
+                  <table><tr style="background-color:#FFFFFF"><td style="width:300px;border:none;padding-left:20px"><b>Your Bet</b></td><td style="width:400px;border:none;border:none;padding-left:13px"><b>{bet_value}</b></td></tr></table>
+                  <table><tr style="background-color:#e3e3e3"><td style="width:300px;border:none;padding-left:20px"><b>Race Result</b></td><td style="width:400px;border:none;border:none;padding-left:13px"><b>{{result_value}}</b></td></tr></table>
+                  <table><tr style="background-color:#FFFFFF"><td style="width:300px;border:none;padding-left:20px"><b>Bet Amount</b></td><td style="width:400px;border:none;border:none;padding-left:10px"><b>${{bet_amount}}</b></td></tr></table>
+                  <table><tr style="background-color:#e3e3e3"><td style="width:300px;border:none;padding-left:20px"><b>Win Amount</b></td><td style="width:400px;border:none;color:green;border:none;padding-left:10px"><b>${{winnings}}</b></td></tr></table>
+              </div>              
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  </div>
+  </div>
+
+  {% endblock %}

@@ -124,7 +124,12 @@
                       <div class="h-v-align-box h-v-align-box--right">
                         <div class="h-v-align-box__element">
                           <div id="loginsection">
-                              <form class="form-inline form-inverse hidden-sm hidden-xs" style="text-align: right;">
+                            {% if logged_in %}
+                              <span style="color:white;padding-right:10px"><b>Welcome, {{username}}!<b></span>  <a href="{% url 'logout' %}"><button type="button" class="btn btn-primary">Logout</button></a>
+                            {% else %}
+
+                            <form action="{% url 'login' %}" method="post" class="form-inline form-inverse hidden-sm hidden-xs" style="text-align: right;">
+                              {% csrf_token %}
                               <div class="form-group" style="width: 20%;">
                                 <input id="username" autocomplete="off" name="username" type="text" placeholder="Username" maxlength="100" max="" min="" class="form-control input-sm" value="" style="width: 100%;">
                               </div>
@@ -132,18 +137,19 @@
                                 <input id="password" autocomplete="off" name="password" type="password" placeholder="Password" maxlength="100" max="" min="" class="form-control input-sm" value="" style="width: 100%;">
                               </div>
                               <div class="form-group">
-                                <button type="button" class="button button--blue-gradient btn btn-default" onclick="window.GameDayApp.login()">Login</button>
-                              </div>
-                              <div class="form-group"><a href="/" class="link--white">Forgot Login?</a></div>
-                              <div class="form-group"><button type="button" class="button button--orange" onclick="window.GameDayApp.register()">Sign Up</button>
+                                <button type="submit" class="button button--blue-gradient btn btn-default">Login</button>
                               </div>
                             </form>
-                          <div class="mini-login__actions visible-xs visible-sm">
-                            <p><button type="button" class="button button--blue-gradient">Login</button>
-                              <button id="account-registration-start" type="button" class="button button--orange" onclick="window.GameDayApp.register()">Sign Up</button>
-                            </p></div>
-                          </div>
-                          
+                            <div class="form-group"><a href="/" class="link--white">Forgot Login?</a></div>
+                              <a href="{% url 'register' %}"><div class="form-group"><button type="button" class="button button--orange">Sign Up</button></a>
+                            </div>
+                            <div class="mini-login__actions visible-xs visible-sm">
+                              <p><button type="button" class="button button--blue-gradient">Login</button>
+                                <a href="{% url 'register' %}"><button id="account-registration-start" type="button" class="button button--orange">Sign Up</button></a>
+                              </p>
+                            </div>
+                          {% endif %} 
+                          </div>                         
                           </div></div></div></div></div></div></div></div></div></section></div></div>
       <div data-habitat="C1"><div></div></div>
       <div data-habitat="C1"><div class="loading-overlay hide"></div></div>
@@ -163,33 +169,10 @@
             <div id="menu-select" class="b-content__body">
                 <aside class="b-content__body__sidebar-first offcanvas-view col-md-3 col-lg-2 " role="complementary">
                       <div class="region region-main-sidebar">
-    <nav role="navigation" aria-labelledby="block-horseracingfunction-menu" id="block-horseracingfunction" data-block-plugin-id="menu_block:horse-racing-function" class="b-block">
-                        
-    <h2 class="b-block__title visually-hidden" id="block-horseracingfunction-menu">Formula 1 Racing Function</h2>
-    
-
-                
-
-              <br><ul class="menu nav b-menu b-menu--vertical left-menu horse-racing-function">
-                                    <li class="leaf b-menu__list-item">
-                                    <a href="/calendar.html" class="b-menu__menu-link">Meeting</a>
-                                        </li>
-                                <li class="leaf b-menu__list-item">
-                                    <a href="/index.html" class="b-menu__menu-link">Race Cards</a>
-                                        </li>
-                                <li class="first leaf active b-menu__list-item">
-                                    <a href="/index.html" class="b-menu__menu-link is-active">Race Results</a>
-                                        </li>
-                                <li class="last leaf b-menu__list-item">
-                                    <a href="/viewbets.html" class="b-menu__menu-link">Your Betting Results</a>
-                                        </li>
-                                <li class="last leaf b-menu__list-item">
-                                    <a href="/calendar.html" class="b-menu__menu-link">Race Calendar</a>
-                                        </li>
-          </ul>
-  
-
-
+    <nav role="navigation" aria-labelledby="block-horseracingfunction-menu" id="block-horseracingfunction" data-block-plugin-id="menu_block:horse-racing-function" class="b-block">                  
+    <h2 class="b-block__title visually-hidden" id="block-horseracingfunction-menu">Formula 1 Racing Function</h2>           
+    {% block sidebar %}
+    {% endblock %}
     </nav>
 
   </div>
@@ -378,63 +361,8 @@
 </div>
 </div>
 
-<div class="col-sm-12 bs-region bs-region--main">
-<div class="block-region-main"><section data-block-plugin-id="horse_racing_meeting" class="block block-sgpools-widget block-horse-racing-meeting clearfix">
-
-
-
-    <div data-habitat="C1">
-      <section class="b-content__body__content offcanvas-view">
-        <div id="banner-main"><img src="{% static 'gameday/singapore.jpeg' %}" width="658px" style="overflow: auto;"></div>
-        <br>
-        <h2 id="navy-blue-title-header" class="header-title header-title--navy-blue" style="overflow: auto;">
-          <span class="horse-racing-event-section-title">Racing Results</span>
-        </h2>
-        <div class="pane-content">
-          <div class="entity entity-bean bean-event-list clearfix">
-            <div class="content"><div class="event-list"><div class="filter">
-              <div class="col-xs-12">
-                <div class="filter__wrapper">
-                  <div class="row">
-                    <div class="col-xs-12 col-sm-5">
-                      <label for="country">Country:</label>
-
-                        <select name="country" id="country">
-                          <option value="singapore" selected>Singapore</option>
-                          <option value="australia">Australia</option>
-                          <option value="newzealand">New Zealand</option>
-                          <option value="thailand">Thailand</option>
-                        </select>
-                    </div>
-                  </div>
-                  <form>
-                    Start Date: <input type="text" id="startdate" name="Start Date" value="01/06/2022">
-                    End Date: <input type="text" id="enddate" name="End Date" value="17/06/2022"><br><br>
-                </form>
-                </div>
-                <button type="button" id="filter">Filter</button><br><br>
-              </div>
-            </div>
-            <div style="padding:10px">
-              <div id="mainracebody">
-                <div id="raceresults"></div>
-            </div>
-            
-            <div id="mainbody">
-                <div id="results"></div>
-            </div>
-            
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-</div>
-</div>
-
+{% block mainbody %}
+{% endblock %}
 
 </div>
 

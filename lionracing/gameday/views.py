@@ -15,6 +15,12 @@ from .models import *
 #####################################################################################
 
 def index(request):
+    if request.user.is_authenticated:
+        logged_in = True
+        username = request.user.username
+    else:
+        logged_in = False
+        username = ""
     if request.method == "POST":
         country = request.POST["country"]
         startdate = request.POST["startdate"]
@@ -39,6 +45,8 @@ def index(request):
         racelist_object = {"datetime_str": race_datetime_str, "race_id": raceResultsObject.id}
         racelist.append(racelist_object)
     return render(request, "gameday/index.html", {
+        "logged_in": logged_in,
+        "username": username,
         "country": country,
         "racelist": racelist,
         "startdate": startdate,
@@ -46,6 +54,12 @@ def index(request):
     })
 
 def viewrace(request, id):
+    if request.user.is_authenticated:
+        logged_in = True
+        username = request.user.username
+    else:
+        logged_in = False
+        username = ""
     raceResultObject = RaceResult.objects.get(id=id)
     countryObject = raceResultObject.country
     country = countryObject.name
@@ -63,15 +77,21 @@ def viewrace(request, id):
     racers_list.append(raceResultObject.position_9)
     racers_list.append(raceResultObject.position_10)
     racers_list_out = []
+    value = 0
     for racerStr in racers_list:
         racerStrSplit = racerStr.split(",")
+        value += 1
+        is_even = (value % 2) == 0
         raceObject = {"position": racerStrSplit[0],
-                    "driver_name": racerStrSplit[1],
+                    "driver": racerStrSplit[1],
                     "team": racerStrSplit[2],
-                    "score": racerStrSplit[3]
+                    "points": racerStrSplit[3],
+                    "is_even": is_even
                     }
         racers_list_out.append(raceObject)
     return render(request, "gameday/raceresults.html", {
+        "logged_in": logged_in,
+        "username": username,
         "country": countryObject.formatted_name,
         "race_datetime": race_datetime_str,
         "racers_list": racers_list_out
@@ -79,6 +99,12 @@ def viewrace(request, id):
 
 @login_required
 def viewbetslist(request):
+    if request.user.is_authenticated:
+        logged_in = True
+        username = request.user.username
+    else:
+        logged_in = False
+        username = ""
     if request.user.is_authenticated:
         if request.method == "POST":
             country = request.POST["country"]
@@ -98,6 +124,8 @@ def viewbetslist(request):
         for betResultsObject in betResultsObjectsList:
             betResultsList.append({"race_datetime": dateTimeIntToStr(betResultsObject.betResultsObject),"id": betResultsObject.id})
         return render(request, "gameday/betslist.html", {
+            "logged_in": logged_in,
+            "username": username,
             "country": countryObject.formatted_name,
             "betResultsList": betResultsList,
             "startdate": startdate,
@@ -111,6 +139,12 @@ def viewbetslist(request):
 @login_required
 def viewbetresults(request, id):
     if request.user.is_authenticated:
+        logged_in = True
+        username = request.user.username
+    else:
+        logged_in = False
+        username = ""
+    if request.user.is_authenticated:
         betResultsObject = BetResult.objects.get(id=id)
         if betResultsObject.user == request.user:
             countryObject = betResultsObject.country
@@ -122,6 +156,8 @@ def viewbetresults(request, id):
             bet_value = betResultsObject.bet_value
             result_value = betResultsObject.result_value
             return render(request, "gameday/betresults.html", {
+                "logged_in": logged_in,
+                "username": username,
                 "country": country,
                 "bet_type": bet_type,
                 "race_datetime": race_datetime,
@@ -133,6 +169,18 @@ def viewbetresults(request, id):
         else:
             # Return Error: Not authorized
             pass
+
+def calendar(request):
+    if request.user.is_authenticated:
+        logged_in = True
+        username = request.user.username
+    else:
+        logged_in = False
+        username = ""
+    return render(request, "gameday/calendar.html", {
+        "logged_in": logged_in,
+        "username": username
+    })
 
 #####################################################################################
 # User Management ###################################################################
