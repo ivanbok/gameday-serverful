@@ -36,11 +36,103 @@ def index(request):
     for raceResultsObject in raceResultsQuerySet:
         race_datetime = int(raceResultsObject.race_datetime)
         race_datetime_str = dateTimeIntToStr(race_datetime)
-        racelist.append(race_datetime_str)
+        racelist_object = {"datetime_str": race_datetime_str, "race_id": raceResultsObject.id}
+        racelist.append(racelist_object)
     return render(request, "gameday/index.html", {
         "country": country,
-        "racelist": racelist
+        "racelist": racelist,
+        "startdate": startdate,
+        "enddate": enddate
     })
+
+def viewrace(request, id):
+    raceResultObject = RaceResult.objects.get(id=id)
+    countryObject = raceResultObject.country
+    country = countryObject.name
+    race_datetime = raceResultObject.race_datetime
+    race_datetime_str = dateTimeIntToStr(race_datetime)
+    racers_list = []
+    racers_list.append(raceResultObject.position_1)
+    racers_list.append(raceResultObject.position_2)
+    racers_list.append(raceResultObject.position_3)
+    racers_list.append(raceResultObject.position_4)
+    racers_list.append(raceResultObject.position_5)
+    racers_list.append(raceResultObject.position_6)
+    racers_list.append(raceResultObject.position_7)
+    racers_list.append(raceResultObject.position_8)
+    racers_list.append(raceResultObject.position_9)
+    racers_list.append(raceResultObject.position_10)
+    racers_list_out = []
+    for racerStr in racers_list:
+        racerStrSplit = racerStr.split(",")
+        raceObject = {"position": racerStrSplit[0],
+                    "driver_name": racerStrSplit[1],
+                    "team": racerStrSplit[2],
+                    "score": racerStrSplit[3]
+                    }
+        racers_list_out.append(raceObject)
+    return render(request, "gameday/raceresults.html", {
+        "country": countryObject.formatted_name,
+        "race_datetime": race_datetime_str,
+        "racers_list": racers_list_out
+    })
+
+@login_required
+def viewbetslist(request):
+    if request.user.is_authenticated:
+        if request.method == "POST":
+            country = request.POST["country"]
+            startdate = request.POST["startdate"]
+            enddate = request.POST["enddate"]
+        else:
+            # Return defaults
+            country = "singapore"
+            now = datetime.datetime.now()
+            timedelta = datetime.timedelta(weeks=4)
+            startdate_object = now - timedelta
+            startdate = startdate_object.strftime("%d/%m/%Y")
+            enddate = now.strftime("%d/%m/%Y")
+
+        betResultsObjectsList = BetResult.objects.filter(user=request.user, country=country, race_datetime__gte=startdate_int, race_datetime__lte=enddate_int)
+        betResultsList = []
+        for betResultsObject in betResultsObjectsList:
+            betResultsList.append({"race_datetime": dateTimeIntToStr(betResultsObject.betResultsObject),"id": betResultsObject.id})
+        return render(request, "gameday/betslist.html", {
+            "country": countryObject.formatted_name,
+            "betResultsList": betResultsList,
+            "startdate": startdate,
+            "enddate": enddate
+        })
+    else:
+        # Return Error: To Do
+        pass
+
+
+@login_required
+def viewbetresults(request, id):
+    if request.user.is_authenticated:
+        betResultsObject = BetResult.objects.get(id=id)
+        if betResultsObject.user == request.user:
+            countryObject = betResultsObject.country
+            country = countryObject.formatted_name
+            bet_type = betResultsObject.bet_type
+            race_datetime = dateTimeIntToStr(betResultsObject.race_datetime)
+            bet_amount = betResultsObject.bet_amount
+            winnings = betResultsObject.winnings
+            bet_value = betResultsObject.bet_value
+            result_value = betResultsObject.result_value
+            return render(request, "gameday/betresults.html", {
+                "country": country,
+                "bet_type": bet_type,
+                "race_datetime": race_datetime,
+                "bet_amount": bet_amount,
+                "winnings": winnings,
+                "bet_value": bet_value,
+                "result_value": result_value
+            })
+        else:
+            # Return Error: Not authorized
+            pass
 
 #####################################################################################
 # User Management ###################################################################

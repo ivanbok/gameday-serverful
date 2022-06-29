@@ -26,6 +26,8 @@ class RaceResult(models.Model):
 class BetResult(models.Model):
     user = models.ForeignKey(to = 'User', on_delete=models.CASCADE)
     race = models.ForeignKey(to = 'RaceResult', on_delete=models.CASCADE)
+    country = models.ForeignKey(to = 'Country', on_delete=models.CASCADE)
+    race_datetime = models.IntegerField()
     bet_amount = models.IntegerField()
     winnings = models.IntegerField()
     bet_type = models.CharField(max_length=255, blank=True)
