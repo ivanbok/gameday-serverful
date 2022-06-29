@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en" dir="ltr" prefix="content: http://purl.org/rss/1.0/modules/content/  dc: http://purl.org/dc/terms/  foaf: http://xmlns.com/foaf/0.1/  og: http://ogp.me/ns#  rdfs: http://www.w3.org/2000/01/rdf-schema#  schema: http://schema.org/  sioc: http://rdfs.org/sioc/ns#  sioct: http://rdfs.org/sioc/types#  skos: http://www.w3.org/2004/02/skos/core#  xsd: http://www.w3.org/2001/XMLSchema# " class=" js"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         
@@ -6,28 +8,15 @@
 <link rel="alternate" hreflang="zh-hans" href="/">
 
 <title>Formula 1 Racing Home Page | Gameday by Lionracing</title>
-<link rel="stylesheet" media="all" href="./static/hidden.module.css">
-<link rel="stylesheet" media="all" href="./static/style.css">
+<link rel="stylesheet" media="all" href="{% static 'gameday/hidden.module.css' %}">
+<link rel="stylesheet" media="all" href="{% static 'gameday/style.css' %}">
 
 <!-- Link to all the important JavaScript Files Here -->
-<script src="js/jquery.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/amazon-cognito-identity.js"></script>
-<script src="js/apiGateway-js-sdk/lib/axios/dist/axios.standalone.js"></script>
-<script src="js/apiGateway-js-sdk/lib/CryptoJS/rollups/hmac-sha256.js"></script>
-<script src="js/apiGateway-js-sdk/lib/CryptoJS/rollups/sha256.js"></script>
-<script src="js/apiGateway-js-sdk/lib/CryptoJS/components/hmac.js"></script>
-<script src="js/apiGateway-js-sdk/lib/CryptoJS/components/enc-base64.js"></script>
-<script src="js/apiGateway-js-sdk/lib/url-template/url-template.js"></script>
-<script src="js/apiGateway-js-sdk/lib/apiGatewayCore/sigV4Client.js"></script>
-<script src="js/apiGateway-js-sdk/lib/apiGatewayCore/apiGatewayClient.js"></script>
-<script src="js/apiGateway-js-sdk/lib/apiGatewayCore/simpleHttpClient.js"></script>
-<script src="js/apiGateway-js-sdk/lib/apiGatewayCore/utils.js"></script>
-<script src="js/apiGateway-js-sdk/apigClient.js"></script>
-<script src="js/config.js"></script>
-<script src="js/usermanagement.js"></script>
-<script src="js/loadindex.js"></script>
-
+<script src="{% static 'gameday/jquery.min.js' %}"></script>
+<script src="{% static 'gameday/amazon-cognito-identity.js' %}"></script>
+<script src="{% static 'gameday/config.js' %}"></script>
+<script src="{% static 'gameday/usermanagement.js' %}"></script>
+<script src="{% static 'gameday/loadindex.js' %}"></script>
 
 <style type="text/css"></style></head>
     <body class="path-node page-node-type-landing-page has-glyphicons loc-horseracing">
@@ -48,7 +37,7 @@
 <section role="top_menu">
         <header id="navbar" role="banner" class="b-header navbar navbar-default">
         <div class="container js-collapsable">
-    <span style="color:rgb(228, 147, 67);font-size:32px;font-family:cursive"><img src="static/logo.png" align="left" width="80">LionRacing</span>
+    <span style="color:rgb(228, 147, 67);font-size:32px;font-family:cursive"><img src="{% static 'gameday/logo.png' %}" align="left" width="80">LionRacing</span>
 
     <div class="b-header__menu js-collapse-target collapse" aria-expanded="false">
         <nav role="navigation">
@@ -396,7 +385,7 @@
 
     <div data-habitat="C1">
       <section class="b-content__body__content offcanvas-view">
-        <div id="banner-main"><img src="static/banner-singapore.jpeg" width="658px" style="overflow: auto;"></div>
+        <div id="banner-main"><img src="{% static 'gameday/singapore.jpeg' %}" width="658px" style="overflow: auto;"></div>
         <br>
         <h2 id="navy-blue-title-header" class="header-title header-title--navy-blue" style="overflow: auto;">
           <span class="horse-racing-event-section-title">Racing Results</span>
@@ -480,7 +469,7 @@
                     </div>
                   </div>
                   <div class="sport-betslip-section panel panel-default sport-betslip-empty">
-                    <h5 class="text-center"><a href="https://aws.amazon.com/"><img src="static/advert.jpeg" width="250"></a></h5>
+                    <h5 class="text-center"><a href="https://aws.amazon.com/"><img src="{% static 'gameday/advert.jpeg' %}" width="250"></a></h5>
                   </div>
                 </div>
               </div>
