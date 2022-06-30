@@ -29,7 +29,7 @@
     <section data-block-plugin-id="horse_racing_meeting" class="block block-sgpools-widget block-horse-racing-meeting clearfix">
       <div data-habitat="C1">
         <section class="b-content__body__content offcanvas-view">
-          <div id="banner-main"><img src="{% static 'gameday/{{country}}.jpeg' %}" width="658px" style="overflow: auto;"></div>
+          <div id="banner-main"><img src="gameday/banner-singapore.jpeg" width="658px" style="overflow: auto;"></div>
           <br>
           <h2 id="navy-blue-title-header" class="header-title header-title--navy-blue" style="overflow: auto;">
             <span class="horse-racing-event-section-title">Racing Results</span>
@@ -69,8 +69,8 @@
                               <option value="thailand" selected>Thailand</option>
                             {% endif %}
                           </select>
-                          Start Date: <input type="text" id="startdate" name="Start Date" value="{{startdate}}">
-                          End Date: <input type="text" id="enddate" name="End Date" value="{{enddate}}"><br><br>                              
+                          Start Date: <input type="text" id="startdate" name="startdate" value="{{startdate}}">
+                          End Date: <input type="text" id="enddate" name="enddate" value="{{enddate}}"><br><br>                              
                       </div>
                     </div>
                   
@@ -81,7 +81,7 @@
               </div>
               <div style="padding:10px">
                 <div id="mainracebody">
-                  <div id="racelistheader" style="font-size:16px"><b>Races in {% country %} from {{startdate}} to {{enddate}}</b></div>
+                  <div id="racelistheader" style="font-size:16px"><b>Races in {{ country_formatted }} from {{startdate}} to {{enddate}}</b></div>
                   {% for race in racelist %}
                     <a href="/viewrace/{{ race.id }}"><button class="btn btn-info" style="margin: 5px">${race.datetime_str}</button></a>
                   {% endfor %}
@@ -97,4 +97,4 @@
   </div>
   </div>
 
-  {% endblock %}
+{% endblock %}

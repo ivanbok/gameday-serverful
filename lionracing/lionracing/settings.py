@@ -74,12 +74,18 @@ WSGI_APPLICATION = 'lionracing.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+#Production database
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'djangodatabase',
+        'USER': 'admin',
+        'PASSWORD': 'password',
+        'HOST': 'database-1.cl29qejjbqsx.ap-southeast-1.rds.amazonaws.com',
+        'PORT': '3306',
     }
 }
+
 
 AUTH_USER_MODEL = 'gameday.User'
 

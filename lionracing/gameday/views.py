@@ -37,7 +37,8 @@ def index(request):
     # Get Races
     startdate_int = int(dateTimeStrToInt(startdate))
     enddate_int = int(dateTimeStrToInt(enddate)) + 2359
-    raceResultsQuerySet = RaceResult.objects.filter(race_datetime__gte=startdate_int, race_datetime__lte=enddate_int).filter(country=country)
+    countryObject = Country.objects.get(name=country)
+    raceResultsQuerySet = RaceResult.objects.filter(race_datetime__gte=startdate_int, race_datetime__lte=enddate_int).filter(country=countryObject)
     racelist = []
     for raceResultsObject in raceResultsQuerySet:
         race_datetime = int(raceResultsObject.race_datetime)
@@ -48,6 +49,7 @@ def index(request):
         "logged_in": logged_in,
         "username": username,
         "country": country,
+        "country_formatted": countryObject.formatted_name,
         "racelist": racelist,
         "startdate": startdate,
         "enddate": enddate
@@ -118,15 +120,19 @@ def viewbetslist(request):
             startdate_object = now - timedelta
             startdate = startdate_object.strftime("%d/%m/%Y")
             enddate = now.strftime("%d/%m/%Y")
-
-        betResultsObjectsList = BetResult.objects.filter(user=request.user, country=country, race_datetime__gte=startdate_int, race_datetime__lte=enddate_int)
+        
+        startdate_int = int(dateTimeStrToInt(startdate))
+        enddate_int = int(dateTimeStrToInt(enddate)) + 2359
+        countryObject = Country.objects.get(name=country)
+        betResultsObjectsList = BetResult.objects.filter(user=request.user, country=countryObject, race_datetime__gte=startdate_int, race_datetime__lte=enddate_int)
         betResultsList = []
         for betResultsObject in betResultsObjectsList:
             betResultsList.append({"race_datetime": dateTimeIntToStr(betResultsObject.betResultsObject),"id": betResultsObject.id})
         return render(request, "gameday/betslist.html", {
             "logged_in": logged_in,
             "username": username,
-            "country": countryObject.formatted_name,
+            "country_formatted": countryObject.formatted_name,
+            "country": country,
             "betResultsList": betResultsList,
             "startdate": startdate,
             "enddate": enddate
@@ -196,7 +202,7 @@ def login_view(request):
         # Check if authentication successful
         if user is not None:
             login(request, user)
-            return HttpResponseRedirect(reverse("store"))
+            return HttpResponseRedirect(reverse("index"))
         else:
             return render(request, "gameday/login.html", {
                 "message": "Invalid username and/or password."
